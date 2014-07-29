@@ -8,27 +8,67 @@
 
 #import "TKAnimatedLayer.h"
 
+CGFloat GetDelay(CGImageSourceRef sourceRef, NSUInteger idx)
+{
+  CGFloat delay = 0.0;
+  if ( sourceRef ) {
+    CFDictionaryRef dictionaryRef = CGImageSourceCopyPropertiesAtIndex(sourceRef, idx, NULL);
+    if ( dictionaryRef ) {
+      
+      CFDictionaryRef gifDictionaryRef = NULL;
+      if ( CFDictionaryGetValueIfPresent(dictionaryRef, kCGImagePropertyGIFDictionary, ((const void **)(&gifDictionaryRef))) ) {
+        const void *value = NULL;
+        if ( CFDictionaryGetValueIfPresent(gifDictionaryRef, kCGImagePropertyGIFUnclampedDelayTime, &value) ) {
+          delay = [((__bridge NSNumber *)value) floatValue];
+          if ( delay<=0.0 ) {
+            if ( CFDictionaryGetValueIfPresent(gifDictionaryRef, kCGImagePropertyGIFDelayTime, &value) ) {
+              delay = [((__bridge NSNumber *)value) floatValue];
+            }
+          }
+        }
+      }
+      
+      CFRelease(dictionaryRef);
+    }
+  }
+  return delay;
+}
+
+NSUInteger GetLoopCount(CGImageSourceRef sourceRef)
+{
+  NSUInteger loopCount = 0;
+  if ( sourceRef ) {
+    CFDictionaryRef propertyRef = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL);
+    if ( dictionaryRef ) {
+      NSNumber *value = ((__bridge NSNumber *)CFDictionaryGetValue(dictionaryRef, kCGImagePropertyGIFLoopCount));
+      loopCount = [value unsignedIntegerValue];
+      CFRelease(dictionaryRef);
+    }
+  }
+  return loopCount;
+}
+
+
+
+
+
+
 @implementation TKAnimatedLayer
 
-- (void)reloadWithData:(NSData *)data
+- (void)prepare:(NSData *)data
 {
-  if ( [data length]<=0 ) {
-    return;
+  if ( [data length]>0 ) {
   }
   
   _frameCount = 0;
-  _frameList = nil;
+  _frameAry = nil;
+  _delayAry = nil;
+  
   _loopCount = 0;
-  _animationDuration = 0.0;
-  _delayTimeList = nil;
-  
-  _currentFrameIndex = NSNotFound;
-  
-  if ( _sourceRef ) {
-    CFRelease(_sourceRef);
-  }
+  _duration = 0.0;
   
   _paused = NO;
+  _presentedIndex = NSNotFound;
   
   
   [CATransaction begin];
@@ -36,28 +76,31 @@
   self.opaque = YES;
   [CATransaction commit];
   
-  _sourceRef = CGImageSourceCreateWithData(((__bridge CFDataRef)data), NULL);
+  CGImageSourceRef sourceRef = CGImageSourceCreateWithData(((__bridge CFDataRef)data), NULL);
   
-  if ( _sourceRef ) {
-    _frameCount = CGImageSourceGetCount(_sourceRef);
+  if ( sourceRef ) {
     
-    _frameList = [[NSMutableArray alloc] init];
+    _frameCount = CGImageSourceGetCount(sourceRef);
+    
+    NSMutableArray *frameAry = [[NSMutableArray alloc] init];
     for ( int i=0; i<_frameCount; ++i ) {
-      CGImageRef imageRef = CGImageSourceCreateImageAtIndex(_sourceRef, i, NULL);
-      [_frameList addObject:((__bridge id)imageRef)];
+      CGImageRef imageRef = CGImageSourceCreateImageAtIndex(sourceRef, i, NULL);
+      [frameAry addObject:((__bridge id)imageRef)];
       CFRelease(imageRef);
     }
+    _frameAry = frameAry;
     
-    _loopCount = [[self class] loopCountOfSource:_sourceRef];
-    
-    _animationDuration = 0.0;
-    
-    _delayTimeList = [[NSMutableArray alloc] init];
+    NSMutableArray *delayAry = [[NSMutableArray alloc] init];
     for ( NSUInteger i=0; i<_frameCount; ++i ) {
       CGFloat delayTime = [[self class] delayTimeOfSource:_sourceRef atIndex:i];
       _animationDuration += delayTime;
       [_delayTimeList addObject:[NSNumber numberWithDouble:delayTime]];
     }
+    
+    _loopCount = GetLoopCount(sourceRef);
+    
+    _animationDuration = 0.0;
+    
     
     [CATransaction begin];
     [CATransaction setDisableActions:YES];

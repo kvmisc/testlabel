@@ -10,22 +10,18 @@
 #import <ImageIO/ImageIO.h>
 
 @interface TKAnimatedLayer : CALayer {
-  
   NSUInteger _frameCount;
-  NSMutableArray *_frameList;
+  NSArray *_frameAry;
+  NSArray *_delayAry;
+  
   NSUInteger _loopCount;
-  CGFloat _animationDuration;
-  NSMutableArray *_delayTimeList;
-  
-  NSUInteger _currentFrameIndex;
-  
-  
-  CGImageSourceRef _sourceRef;
+  CGFloat _duration;
   
   BOOL _paused;
+  NSUInteger _presentedIndex;
 }
 
-@property (nonatomic, readonly) NSUInteger currentFrameIndex;
+@property (nonatomic, readonly) NSUInteger presentedIndex;
 
 - (void)prepare:(NSData *)data;
 
@@ -33,7 +29,5 @@
 - (void)stopAnimating;
 - (void)pauseAnimating;
 - (void)resumeAnimating;
-
-- (CGSize)sizeOfImage;
 
 @end
