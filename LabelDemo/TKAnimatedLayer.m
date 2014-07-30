@@ -8,7 +8,37 @@
 
 #import "TKAnimatedLayer.h"
 
-CGFloat SourceGetDelay(CGImageSourceRef sourceRef, NSUInteger idx)
+inline static CGFloat SourceGetWidth(CGImageSourceRef sourceRef)
+{
+  CGFloat width = 0.0;
+  if ( sourceRef ) {
+    CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL);
+    if ( properties ) {
+      
+      NSNumber *value = ((__bridge NSNumber *)CFDictionaryGetValue(properties, kCGImagePropertyPixelWidth));
+      width = [value floatValue];
+      CFRelease(properties);
+    }
+  }
+  return width;
+}
+
+inline static CGFloat SourceGetHeight(CGImageSourceRef sourceRef)
+{
+  CGFloat height = 0.0;
+  if ( sourceRef ) {
+    CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL);
+    if ( properties ) {
+      
+      NSNumber *value = ((__bridge NSNumber *)CFDictionaryGetValue(properties, kCGImagePropertyPixelHeight));
+      height = [value floatValue];
+      CFRelease(properties);
+    }
+  }
+  return height;
+}
+
+inline static CGFloat SourceGetDelay(CGImageSourceRef sourceRef, NSUInteger idx)
 {
   CGFloat delay = 0.0;
   if ( sourceRef ) {
@@ -33,7 +63,7 @@ CGFloat SourceGetDelay(CGImageSourceRef sourceRef, NSUInteger idx)
   return delay;
 }
 
-NSUInteger SourceGetLoopCount(CGImageSourceRef sourceRef)
+inline static NSUInteger SourceGetLoopCount(CGImageSourceRef sourceRef)
 {
   NSUInteger loopCount = 0;
   if ( sourceRef ) {
@@ -48,12 +78,13 @@ NSUInteger SourceGetLoopCount(CGImageSourceRef sourceRef)
   return loopCount;
 }
 
-BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
+inline static BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 {
   BOOL hasAlpha = NO;
   if ( sourceRef ) {
     CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL);
     if ( properties ) {
+      
       const void *value = CFDictionaryGetValue(properties, kCGImagePropertyHasAlpha);
       hasAlpha = (value==kCFBooleanTrue);
       CFRelease(properties);
@@ -97,6 +128,8 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
     CGImageSourceRef sourceRef = CGImageSourceCreateWithData(((__bridge CFDataRef)data), NULL);
     
     if ( sourceRef ) {
+      _frameSize = CGSizeMake(SourceGetWidth(sourceRef), SourceGetHeight(sourceRef));
+      
       _frameCount = CGImageSourceGetCount(sourceRef);
       
       NSMutableArray *frameAry = [[NSMutableArray alloc] init];
@@ -148,16 +181,14 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
     NSMutableArray *values = [[NSMutableArray alloc] init];
     NSMutableArray *keyTimes = [[NSMutableArray alloc] init];
     
-    NSTimeInterval lastFraction = 0.0;
     for ( NSUInteger i=0; i<_frameCount; ++i ) {
       [values addObject:[NSNumber numberWithUnsignedInteger:i]];
       
-      NSTimeInterval currentFraction = 0.0;
-      if ( i>0 ) {
-        currentFraction = lastFraction + [[_delayAry objectAtIndex:i] floatValue] / _duration;
+      NSTimeInterval fraction = 0.0;
+      for ( int j=0; j<i; ++j ) {
+        fraction += [[_delayAry objectAtIndex:j] floatValue];
       }
-      [keyTimes addObject:[NSNumber numberWithDouble:currentFraction]];
-      lastFraction = currentFraction;
+      [keyTimes addObject:[NSNumber numberWithDouble:fraction/_duration]];
     }
     
     //add final destination value
@@ -227,10 +258,16 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
   return [key isEqualToString:@"presentationIndex"];
 }
 
+- (CGSize)preferredFrameSize
+{
+  return _frameSize;
+}
+
 
 
 - (void)clean
 {
+  _frameSize = CGSizeZero;
   _frameCount = 0;
   _frameAry = nil;
   _delayAry = nil;

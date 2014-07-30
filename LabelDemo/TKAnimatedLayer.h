@@ -10,6 +10,7 @@
 #import <ImageIO/ImageIO.h>
 
 @interface TKAnimatedLayer : CALayer {
+  CGSize _frameSize;
   NSUInteger _frameCount;
   NSArray *_frameAry;
   NSArray *_delayAry;

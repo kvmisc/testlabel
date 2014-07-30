@@ -38,7 +38,7 @@
   _animatedView = [[UIView alloc] init];
   _animatedView.backgroundColor = [UIColor redColor];
   [self.view addSubview:_animatedView];
-  _animatedView.frame = CGRectMake(10.0, 160.0, 19.0, 19.0);
+  _animatedView.frame = CGRectMake(10.0, 160.0, 200.0, 200.0);
   
 }
 
@@ -61,6 +61,7 @@
 - (void)doit3:(id)sender
 {
   [_animatedLayer startAnimating];
+  NSLog(@"%@", NSStringFromCGSize([_animatedLayer preferredFrameSize]));
 }
 
 @end

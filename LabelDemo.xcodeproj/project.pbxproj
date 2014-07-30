@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		238A0B8E1988873400469543 /* GifAnimationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A0B8D1988873400469543 /* GifAnimationLayer.m */; };
 		238A0B901988928E00469543 /* earth.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B8F1988928E00469543 /* earth.gif */; };
 		238A0B93198892A700469543 /* TKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A0B92198892A700469543 /* TKViewController.m */; };
 		238A0B9519889B4A00469543 /* qq.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B9419889B4A00469543 /* qq.gif */; };
@@ -23,8 +22,6 @@
 
 /* Begin PBXFileReference section */
 		1EA685F07BE44A87935C9D68 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		238A0B8C1988873400469543 /* GifAnimationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifAnimationLayer.h; sourceTree = "<group>"; };
-		238A0B8D1988873400469543 /* GifAnimationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifAnimationLayer.m; sourceTree = "<group>"; };
 		238A0B8F1988928E00469543 /* earth.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = earth.gif; sourceTree = "<group>"; };
 		238A0B91198892A700469543 /* TKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKViewController.h; sourceTree = "<group>"; };
 		238A0B92198892A700469543 /* TKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKViewController.m; sourceTree = "<group>"; };
@@ -100,8 +97,6 @@
 				238A0B92198892A700469543 /* TKViewController.m */,
 				23F18D641987A61C00CC7394 /* TKAnimatedLayer.h */,
 				23F18D651987A61C00CC7394 /* TKAnimatedLayer.m */,
-				238A0B8C1988873400469543 /* GifAnimationLayer.h */,
-				238A0B8D1988873400469543 /* GifAnimationLayer.m */,
 				238A0B8F1988928E00469543 /* earth.gif */,
 				238A0B9419889B4A00469543 /* qq.gif */,
 				23F18D471987A04200CC7394 /* Images.xcassets */,
@@ -210,7 +205,6 @@
 			files = (
 				23F18D661987A61C00CC7394 /* TKAnimatedLayer.m in Sources */,
 				238A0B93198892A700469543 /* TKViewController.m in Sources */,
-				238A0B8E1988873400469543 /* GifAnimationLayer.m in Sources */,
 				23F18D461987A04200CC7394 /* AppDelegate.m in Sources */,
 				23F18D421987A04200CC7394 /* main.m in Sources */,
 			);
