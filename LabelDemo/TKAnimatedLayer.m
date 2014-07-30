@@ -8,57 +8,76 @@
 
 #import "TKAnimatedLayer.h"
 
-CGFloat GetDelay(CGImageSourceRef sourceRef, NSUInteger idx)
+CGFloat SourceGetDelay(CGImageSourceRef sourceRef, NSUInteger idx)
 {
   CGFloat delay = 0.0;
   if ( sourceRef ) {
-    CFDictionaryRef dictionaryRef = CGImageSourceCopyPropertiesAtIndex(sourceRef, idx, NULL);
-    if ( dictionaryRef ) {
+    CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(sourceRef, idx, NULL);
+    if ( properties ) {
       
-      CFDictionaryRef gifDictionaryRef = NULL;
-      if ( CFDictionaryGetValueIfPresent(dictionaryRef, kCGImagePropertyGIFDictionary, ((const void **)(&gifDictionaryRef))) ) {
+      CFDictionaryRef dictionaryRef = NULL;
+      if ( CFDictionaryGetValueIfPresent(properties, kCGImagePropertyGIFDictionary, ((const void **)(&dictionaryRef))) ) {
         const void *value = NULL;
-        if ( CFDictionaryGetValueIfPresent(gifDictionaryRef, kCGImagePropertyGIFUnclampedDelayTime, &value) ) {
+        if ( CFDictionaryGetValueIfPresent(dictionaryRef, kCGImagePropertyGIFUnclampedDelayTime, &value) ) {
           delay = [((__bridge NSNumber *)value) floatValue];
           if ( delay<=0.0 ) {
-            if ( CFDictionaryGetValueIfPresent(gifDictionaryRef, kCGImagePropertyGIFDelayTime, &value) ) {
+            if ( CFDictionaryGetValueIfPresent(dictionaryRef, kCGImagePropertyGIFDelayTime, &value) ) {
               delay = [((__bridge NSNumber *)value) floatValue];
             }
           }
         }
       }
-      
-      CFRelease(dictionaryRef);
+      CFRelease(properties);
     }
   }
   return delay;
 }
 
-NSUInteger GetLoopCount(CGImageSourceRef sourceRef)
+NSUInteger SourceGetLoopCount(CGImageSourceRef sourceRef)
 {
   NSUInteger loopCount = 0;
   if ( sourceRef ) {
-    CFDictionaryRef propertyRef = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL);
-    if ( dictionaryRef ) {
-      NSNumber *value = ((__bridge NSNumber *)CFDictionaryGetValue(dictionaryRef, kCGImagePropertyGIFLoopCount));
+    CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL);
+    if ( properties ) {
+      
+      NSNumber *value = ((__bridge NSNumber *)CFDictionaryGetValue(properties, kCGImagePropertyGIFLoopCount));
       loopCount = [value unsignedIntegerValue];
-      CFRelease(dictionaryRef);
+      CFRelease(properties);
     }
   }
   return loopCount;
 }
 
-
-
+BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
+{
+  BOOL hasAlpha = NO;
+  if ( sourceRef ) {
+    CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL);
+    if ( properties ) {
+      const void *value = CFDictionaryGetValue(properties, kCGImagePropertyHasAlpha);
+      hasAlpha = (value==kCFBooleanTrue);
+      CFRelease(properties);
+    }
+  }
+  return hasAlpha;
+}
 
 
 
 @implementation TKAnimatedLayer
 
-- (void)prepare:(NSData *)data
+- (id)init
 {
-  if ( [data length]>0 ) {
+  self = [super init];
+  if ( self ) {
+    _presentationIndex = NSNotFound;
   }
+  return self;
+}
+
+- (void)dealloc
+{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   _frameCount = 0;
   _frameAry = nil;
@@ -68,47 +87,57 @@ NSUInteger GetLoopCount(CGImageSourceRef sourceRef)
   _duration = 0.0;
   
   _paused = NO;
-  _presentedIndex = NSNotFound;
-  
-  
-  [CATransaction begin];
-  [CATransaction setDisableActions:YES];
-  self.opaque = YES;
-  [CATransaction commit];
-  
-  CGImageSourceRef sourceRef = CGImageSourceCreateWithData(((__bridge CFDataRef)data), NULL);
-  
-  if ( sourceRef ) {
+  _presentationIndex = NSNotFound;
+}
+
+
+
+- (void)prepare:(NSData *)data
+{
+  if ( [data length]>0 ) {
     
-    _frameCount = CGImageSourceGetCount(sourceRef);
+    [self clean];
     
-    NSMutableArray *frameAry = [[NSMutableArray alloc] init];
-    for ( int i=0; i<_frameCount; ++i ) {
-      CGImageRef imageRef = CGImageSourceCreateImageAtIndex(sourceRef, i, NULL);
-      [frameAry addObject:((__bridge id)imageRef)];
-      CFRelease(imageRef);
+    [self updateOpaque:YES];
+    
+    
+    CGImageSourceRef sourceRef = CGImageSourceCreateWithData(((__bridge CFDataRef)data), NULL);
+    
+    if ( sourceRef ) {
+      _frameCount = CGImageSourceGetCount(sourceRef);
+      
+      NSMutableArray *frameAry = [[NSMutableArray alloc] init];
+      for ( int i=0; i<_frameCount; ++i ) {
+        CGImageRef imageRef = CGImageSourceCreateImageAtIndex(sourceRef, i, NULL);
+        [frameAry addObject:((__bridge id)imageRef)];
+        CFRelease(imageRef);
+      }
+      _frameAry = frameAry;
+      
+      NSMutableArray *delayAry = [[NSMutableArray alloc] init];
+      for ( NSUInteger i=0; i<_frameCount; ++i ) {
+        CGFloat delay = SourceGetDelay(sourceRef, i);
+        _duration += delay;
+        [delayAry addObject:[NSNumber numberWithDouble:delay]];
+      }
+      _delayAry = delayAry;
+      
+      
+      _loopCount = SourceGetLoopCount(sourceRef);
+      //_duration = ...;
+      
+      
+      [self updateOpaque:!SourceHasAlpha(sourceRef)];
+      
+      //_paused = NO;
+      _presentationIndex = 0;
+      
+      CFRelease(sourceRef);
+      
+      
+      [self display];
     }
-    _frameAry = frameAry;
     
-    NSMutableArray *delayAry = [[NSMutableArray alloc] init];
-    for ( NSUInteger i=0; i<_frameCount; ++i ) {
-      CGFloat delayTime = [[self class] delayTimeOfSource:_sourceRef atIndex:i];
-      _animationDuration += delayTime;
-      [_delayTimeList addObject:[NSNumber numberWithDouble:delayTime]];
-    }
-    
-    _loopCount = GetLoopCount(sourceRef);
-    
-    _animationDuration = 0.0;
-    
-    
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    self.opaque = ![[self class] hasAlphaOfSource:_sourceRef];
-    [CATransaction commit];
-    
-    _currentFrameIndex = 0;
-    [self display];
   }
 }
 
@@ -116,52 +145,46 @@ NSUInteger GetLoopCount(CGImageSourceRef sourceRef)
 {
   [self stopAnimating];
   
-  if ( (!_sourceRef) || (_frameCount<=0) ) {
-    return;
-  }
-  
-  CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"currentFrameIndex"];
-  animation.calculationMode = kCAAnimationDiscrete;
-  animation.autoreverses = NO;
-  if ( _loopCount>0 ) {
-    animation.repeatCount = _loopCount;
-  } else {
-    animation.repeatCount = HUGE_VALF;
-  }
-  
-  NSMutableArray *values = [[NSMutableArray alloc] init];
-  NSMutableArray *keyTimes = [[NSMutableArray alloc] init];
-  NSTimeInterval lastDurationFraction = 0.0;
-  for ( NSUInteger i=0; i<_frameCount; ++i ) {
-    [values addObject:[NSNumber numberWithUnsignedInteger:i]];
+  if ( _frameCount>0 ) {
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"presentationIndex"];
+    animation.calculationMode = kCAAnimationDiscrete;
+    animation.autoreverses = NO;
+    animation.repeatCount = (_loopCount>0) ? _loopCount : HUGE_VALF;
     
-    NSTimeInterval delayTime = [[_delayTimeList objectAtIndex:i] floatValue];
-    NSTimeInterval currentDurationFraction = 0.0;
-    if ( i>0 ) {
-      currentDurationFraction = lastDurationFraction + delayTime / _animationDuration;
+    NSMutableArray *values = [[NSMutableArray alloc] init];
+    NSMutableArray *keyTimes = [[NSMutableArray alloc] init];
+    NSTimeInterval lastDurationFraction = 0.0;
+    for ( NSUInteger i=0; i<_frameCount; ++i ) {
+      [values addObject:[NSNumber numberWithUnsignedInteger:i]];
+      
+      NSTimeInterval delayTime = [[_delayAry objectAtIndex:i] floatValue];
+      NSTimeInterval currentDurationFraction = 0.0;
+      if ( i>0 ) {
+        currentDurationFraction = lastDurationFraction + delayTime / _duration;
+      }
+      lastDurationFraction = currentDurationFraction;
+      [keyTimes addObject:[NSNumber numberWithDouble:currentDurationFraction]];
     }
-    lastDurationFraction = currentDurationFraction;
-    [keyTimes addObject:[NSNumber numberWithDouble:currentDurationFraction]];
+    
+    //add final destination value
+    [values addObject:[NSNumber numberWithUnsignedInteger:_frameCount]];
+    [keyTimes addObject:[NSNumber numberWithDouble:1.0]];
+    
+    animation.values = values;
+    animation.keyTimes = keyTimes;
+    animation.duration = _duration;
+    
+    [self addAnimation:animation forKey:@"GIFAnimation"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didEnterBackground)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(willEnterForeground)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
   }
-  
-  //add final destination value
-  [values addObject:[NSNumber numberWithUnsignedInteger:_frameCount]];
-  [keyTimes addObject:[NSNumber numberWithDouble:1.0]];
-  
-  animation.values = values;
-  animation.keyTimes = keyTimes;
-  animation.duration = _animationDuration;
-  
-  [self addAnimation:animation forKey:@"GIFAnimation"];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(applicationDidEnterBackground)
-                                               name:UIApplicationDidEnterBackgroundNotification
-                                             object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(applicationWillEnterForeground)
-                                               name:UIApplicationWillEnterForegroundNotification
-                                             object:nil];
 }
 
 - (void)stopAnimating
@@ -186,73 +209,15 @@ NSUInteger GetLoopCount(CGImageSourceRef sourceRef)
   }
 }
 
-- (CGSize)sizeOfImage
-{
-  CGSize size = CGSizeZero;
-  if ( _sourceRef ) {
-    CFDictionaryRef dictionaryRef = CGImageSourceCopyPropertiesAtIndex(_sourceRef, 0, NULL);
-    if ( dictionaryRef ) {
-      NSNumber *width = ((__bridge NSNumber *)CFDictionaryGetValue(dictionaryRef, kCGImagePropertyPixelWidth));
-      size.width = [width floatValue];
-      NSNumber *height = ((__bridge NSNumber *)CFDictionaryGetValue(dictionaryRef, kCGImagePropertyPixelHeight));
-      size.height = [height floatValue];
-      CFRelease(dictionaryRef);
-    }
-  }
-  return size;
-}
-
-
-- (void)applicationDidEnterBackground
-{
-  self.speed = 0.0;
-}
-
-- (void)applicationWillEnterForeground
-{
-  self.speed = 1.0;
-  if ( !_paused ) {
-    [self startAnimating];
-  }
-}
-
-
-- (id)init
-{
-  self = [super init];
-  if ( self ) {
-    _currentFrameIndex = NSNotFound;
-  }
-  return self;
-}
-
-- (void)dealloc
-{
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  
-  _frameCount = 0;
-  _frameList = nil;
-  _loopCount = 0;
-  _animationDuration = 0.0;
-  _delayTimeList = nil;
-  
-  _currentFrameIndex = NSNotFound;
-  
-  if ( _sourceRef ) {
-    CFRelease(_sourceRef);
-  }
-  
-  _paused = NO;
-}
 
 - (void)display
 {
-  if ( _sourceRef ) {
-    NSUInteger index = [((TBGIFLayer *)[self presentationLayer]) currentFrameIndex];
+  if ( _frameCount>0 ) {
+    NSUInteger index = [[self presentationLayer] presentationIndex];
     if ( index<_frameCount ) {
       [CATransaction begin];
       [CATransaction setDisableActions:YES];
-      self.contents = [_frameList objectAtIndex:index];
+      self.contents = [_frameAry objectAtIndex:index];
       [CATransaction commit];
     }
   }
@@ -260,60 +225,43 @@ NSUInteger GetLoopCount(CGImageSourceRef sourceRef)
 
 + (BOOL)needsDisplayForKey:(NSString *)key
 {
-  return [key isEqualToString:@"currentFrameIndex"];
+  return [key isEqualToString:@"presentationIndex"];
 }
 
 
-+ (BOOL)hasAlphaOfSource:(CGImageSourceRef)sourceRef
+
+- (void)clean
 {
-  BOOL hasAlpha = NO;
-  if ( sourceRef ) {
-    CFDictionaryRef dictionaryRef = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL);
-    if ( dictionaryRef ) {
-      const void *value = CFDictionaryGetValue(dictionaryRef, kCGImagePropertyHasAlpha);
-      hasAlpha = (value==kCFBooleanTrue);
-      CFRelease(dictionaryRef);
-    }
-  }
-  return hasAlpha;
+  _frameCount = 0;
+  _frameAry = nil;
+  _delayAry = nil;
+  
+  _loopCount = 0;
+  _duration = 0.0;
+  
+  _paused = NO;
+  _presentationIndex = NSNotFound;
 }
 
-+ (NSUInteger)loopCountOfSource:(CGImageSourceRef)sourceRef
+- (void)updateOpaque:(BOOL)newOpaque
 {
-  NSUInteger loopCount = 0;
-  if ( sourceRef ) {
-    CFDictionaryRef dictionaryRef = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, NULL);
-    if ( dictionaryRef ) {
-      NSNumber *value = ((__bridge NSNumber *)CFDictionaryGetValue(dictionaryRef, kCGImagePropertyGIFLoopCount));
-      loopCount = [value unsignedIntegerValue];
-      CFRelease(dictionaryRef);
-    }
-  }
-  return loopCount;
+  [CATransaction begin];
+  [CATransaction setDisableActions:YES];
+  self.opaque = newOpaque;
+  [CATransaction commit];
 }
 
-+ (CGFloat)delayTimeOfSource:(CGImageSourceRef)sourceRef atIndex:(NSUInteger)idx
+- (void)didEnterBackground
 {
-  CGFloat delayTime = 0.0;
-  if ( sourceRef ) {
-    CFDictionaryRef dictionaryRef = CGImageSourceCopyPropertiesAtIndex(sourceRef, idx, NULL);
-    if ( dictionaryRef ) {
-      CFDictionaryRef gifDictionaryRef = NULL;
-      if ( CFDictionaryGetValueIfPresent(dictionaryRef, kCGImagePropertyGIFDictionary, ((const void **)(&gifDictionaryRef))) ) {
-        const void *delayTimeValue = NULL;
-        if ( CFDictionaryGetValueIfPresent(gifDictionaryRef, kCGImagePropertyGIFUnclampedDelayTime, &delayTimeValue) ) {
-          delayTime = [((__bridge NSNumber *)delayTimeValue) floatValue];
-          if ( delayTime<=0.0 ) {
-            if ( CFDictionaryGetValueIfPresent(gifDictionaryRef, kCGImagePropertyGIFDelayTime, &delayTimeValue) ) {
-              delayTime = [((__bridge NSNumber *)delayTimeValue) floatValue];
-            }
-          }
-        }
-      }
-      CFRelease(dictionaryRef);
-    }
+  self.speed = 0.0;
+}
+
+- (void)willEnterForeground
+{
+  self.speed = 1.0;
+  if ( !_paused ) {
+    [self startAnimating];
   }
-  return delayTime;
 }
 
 @end

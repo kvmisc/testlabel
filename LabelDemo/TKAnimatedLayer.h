@@ -18,10 +18,10 @@
   CGFloat _duration;
   
   BOOL _paused;
-  NSUInteger _presentedIndex;
+  NSUInteger _presentationIndex;
 }
 
-@property (nonatomic, readonly) NSUInteger presentedIndex;
+@property (nonatomic, readonly) NSUInteger presentationIndex;
 
 - (void)prepare:(NSData *)data;
 
