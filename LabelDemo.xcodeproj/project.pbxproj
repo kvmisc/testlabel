@@ -11,6 +11,8 @@
 		2305B52D1988D8DC00FA44E8 /* qq2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2305B52A1988D8DC00FA44E8 /* qq2.gif */; };
 		2305B52E1988D8DC00FA44E8 /* qq3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2305B52B1988D8DC00FA44E8 /* qq3.gif */; };
 		2305B52F1988D8DC00FA44E8 /* qq4.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2305B52C1988D8DC00FA44E8 /* qq4.gif */; };
+		2305B5311988D92F00FA44E8 /* pig.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2305B5301988D92F00FA44E8 /* pig.gif */; };
+		2305B5331988D95D00FA44E8 /* emotions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2305B5321988D95D00FA44E8 /* emotions.plist */; };
 		238A0B901988928E00469543 /* earth.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B8F1988928E00469543 /* earth.gif */; };
 		238A0B93198892A700469543 /* TKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A0B92198892A700469543 /* TKViewController.m */; };
 		238A0B9519889B4A00469543 /* qq1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B9419889B4A00469543 /* qq1.gif */; };
@@ -31,6 +33,8 @@
 		2305B52A1988D8DC00FA44E8 /* qq2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = qq2.gif; sourceTree = "<group>"; };
 		2305B52B1988D8DC00FA44E8 /* qq3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = qq3.gif; sourceTree = "<group>"; };
 		2305B52C1988D8DC00FA44E8 /* qq4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = qq4.gif; sourceTree = "<group>"; };
+		2305B5301988D92F00FA44E8 /* pig.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = pig.gif; sourceTree = "<group>"; };
+		2305B5321988D95D00FA44E8 /* emotions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = emotions.plist; sourceTree = "<group>"; };
 		238A0B8F1988928E00469543 /* earth.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = earth.gif; sourceTree = "<group>"; };
 		238A0B91198892A700469543 /* TKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKViewController.h; sourceTree = "<group>"; };
 		238A0B92198892A700469543 /* TKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKViewController.m; sourceTree = "<group>"; };
@@ -108,11 +112,13 @@
 				2305B5281988CBF200FA44E8 /* TTTAttributedLabel.m */,
 				23F18D641987A61C00CC7394 /* TKAnimatedLayer.h */,
 				23F18D651987A61C00CC7394 /* TKAnimatedLayer.m */,
-				238A0B8F1988928E00469543 /* earth.gif */,
 				238A0B9419889B4A00469543 /* qq1.gif */,
 				2305B52A1988D8DC00FA44E8 /* qq2.gif */,
 				2305B52B1988D8DC00FA44E8 /* qq3.gif */,
 				2305B52C1988D8DC00FA44E8 /* qq4.gif */,
+				2305B5301988D92F00FA44E8 /* pig.gif */,
+				238A0B8F1988928E00469543 /* earth.gif */,
+				2305B5321988D95D00FA44E8 /* emotions.plist */,
 				23F18D471987A04200CC7394 /* Images.xcassets */,
 			);
 			path = LabelDemo;
@@ -177,6 +183,8 @@
 				2305B52F1988D8DC00FA44E8 /* qq4.gif in Resources */,
 				2305B52D1988D8DC00FA44E8 /* qq2.gif in Resources */,
 				2305B52E1988D8DC00FA44E8 /* qq3.gif in Resources */,
+				2305B5331988D95D00FA44E8 /* emotions.plist in Resources */,
+				2305B5311988D92F00FA44E8 /* pig.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

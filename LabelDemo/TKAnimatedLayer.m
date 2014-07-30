@@ -116,7 +116,7 @@ inline static BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 
 - (void)prepare:(NSData *)data
 {
-  DDLogInfo(@"[GIF] %@", THIS_METHOD);
+  //DDLogInfo(@"[GIF] %@", THIS_METHOD);
   
   if ( [data length]>0 ) {
     
@@ -169,7 +169,7 @@ inline static BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 
 - (void)startAnimating
 {
-  DDLogInfo(@"[GIF] %@", THIS_METHOD);
+  //DDLogInfo(@"[GIF] %@", THIS_METHOD);
   [self stopAnimating];
   
   if ( _frameCount>0 ) {
@@ -214,7 +214,7 @@ inline static BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 
 - (void)stopAnimating
 {
-  DDLogInfo(@"[GIF] %@", THIS_METHOD);
+  //DDLogInfo(@"[GIF] %@", THIS_METHOD);
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   [self removeAnimationForKey:@"GIFAnimation"];
@@ -222,14 +222,14 @@ inline static BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 
 - (void)pauseAnimating
 {
-  DDLogInfo(@"[GIF] %@", THIS_METHOD);
+  //DDLogInfo(@"[GIF] %@", THIS_METHOD);
   self.speed = 0.0;
   _paused = YES;
 }
 
 - (void)resumeAnimating
 {
-  DDLogInfo(@"[GIF] %@", THIS_METHOD);
+  //DDLogInfo(@"[GIF] %@", THIS_METHOD);
   self.speed = 1.0;
   _paused = NO;
   if ( ![self animationForKey:@"GIFAnimation"] ) {
@@ -243,7 +243,7 @@ inline static BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
   if ( _frameCount>0 ) {
     NSUInteger index = [[self presentationLayer] presentationIndex];
     if ( index<_frameCount ) {
-      DDLogInfo(@"[GIF] %@ %u", THIS_METHOD, index);
+      //DDLogInfo(@"[GIF] %@ %u", THIS_METHOD, index);
       [CATransaction begin];
       [CATransaction setDisableActions:YES];
       self.contents = [_frameAry objectAtIndex:index];
@@ -254,7 +254,7 @@ inline static BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 
 + (BOOL)needsDisplayForKey:(NSString *)key
 {
-  DDLogInfo(@"[GIF] %@", THIS_METHOD);
+  //DDLogInfo(@"[GIF] %@", THIS_METHOD);
   return [key isEqualToString:@"presentationIndex"];
 }
 

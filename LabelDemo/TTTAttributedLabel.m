@@ -25,9 +25,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Availability.h>
 #import <objc/runtime.h>
-/* Begin Kevin */
-#import "TKAnimatedLayer.h"
-/* End Kevin */
 
 #define kTTTLineBreakWordWrapTextWidthScalingFactor (M_PI / M_E)
 
@@ -1115,9 +1112,12 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
 - (void)addImageLayer
 {
+    static NSString *LayerName = @"ContainerLayer";
+  
     CALayer *containerLayer = [self findContainerLayer];
     if ( !containerLayer ) {
         containerLayer = [CALayer layer];
+        containerLayer.name = LayerName;
         containerLayer.contentsScale = [[UIScreen mainScreen] scale];
         containerLayer.frame = self.bounds;
         containerLayer.backgroundColor = [[UIColor clearColor] CGColor];
@@ -1127,9 +1127,9 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
 
 - (CALayer *)findContainerLayer
 {
-    static NSString *name = @"ContainerLayer";
+    static NSString *LayerName = @"ContainerLayer";
     for (CALayer *layer in [self.layer sublayers]) {
-        if ( [name isEqualToString:[layer name]] ) {
+        if ( [LayerName isEqualToString:[layer name]] ) {
             return layer;
         }
     }

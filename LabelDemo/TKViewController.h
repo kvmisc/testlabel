@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TKAnimatedLayer.h"
+#import "TTTAttributedLabel.h"
 
 @interface TKViewController : UIViewController {
-  TKAnimatedLayer *_animatedLayer;
 }
 
 @end
