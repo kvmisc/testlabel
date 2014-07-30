@@ -10,9 +10,7 @@
 #import "TKAnimatedLayer.h"
 
 @interface TKViewController : UIViewController {
-  UIView *_animatedView;
   TKAnimatedLayer *_animatedLayer;
-  NSData *_data;
 }
 
 @end

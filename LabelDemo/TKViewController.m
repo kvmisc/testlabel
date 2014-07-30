@@ -35,33 +35,34 @@
   button.layer.borderColor = [UIColor blackColor].CGColor;
   [self.view addSubview:button];
   
-  _animatedView = [[UIView alloc] init];
-  _animatedView.backgroundColor = [UIColor redColor];
-  [self.view addSubview:_animatedView];
-  _animatedView.frame = CGRectMake(10.0, 160.0, 200.0, 200.0);
-  
 }
 
 
 - (void)doit1:(id)sender
 {
-  NSString *path = [[NSBundle mainBundle] pathForResource:@"qq.gif" ofType:nil];
-  _data = [[NSData alloc] initWithContentsOfFile:path];
+  UIView *animatedView = [[UIView alloc] init];
+  animatedView.backgroundColor = [UIColor redColor];
+  [self.view addSubview:animatedView];
+  animatedView.frame = CGRectMake(10.0, 160.0, 300.0, 300.0);
+  
+  NSString *path = [[NSBundle mainBundle] pathForResource:@"earth.gif" ofType:nil];
+  NSData *data = [[NSData alloc] initWithContentsOfFile:path];
+  
+  TKAnimatedLayer *animatedLayer = [[TKAnimatedLayer alloc] init];
+  [animatedLayer prepare:data];
+  [animatedView.layer addSublayer:animatedLayer];
+  CGSize frameSize = [animatedLayer preferredFrameSize];
+  animatedLayer.frame = CGRectMake(0.0, 0.0, frameSize.width, frameSize.height);
+  _animatedLayer = animatedLayer;
+  [_animatedLayer startAnimating];
 }
 
 - (void)doit2:(id)sender
 {
-  TKAnimatedLayer *animatedLayer = [[TKAnimatedLayer alloc] init];
-  [animatedLayer prepare:_data];
-  [_animatedView.layer addSublayer:animatedLayer];
-  animatedLayer.frame = _animatedView.bounds;
-  _animatedLayer = animatedLayer;
 }
 
 - (void)doit3:(id)sender
 {
-  [_animatedLayer startAnimating];
-  NSLog(@"%@", NSStringFromCGSize([_animatedLayer preferredFrameSize]));
 }
 
 @end
