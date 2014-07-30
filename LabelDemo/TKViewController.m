@@ -43,7 +43,7 @@
 {
   NSString *shortText = @"Have a [pig] nice day.";
   
-  NSString *longText = @"Having now a [qq1] good house and a [qq2] very sufficient income, he intended to marry; and in seeking a reconciliation with the Longbourn family he had a wife in view, as he meant to choose one of [pig] the daughters, if he found them as handsome and amiable as they were represented by common report. This was his plan of amends--of atonement--for inheriting their father's estate; and he thought it an excellent one, full of eligibility and suitableness, and excessively generous and disinterested on his own part.";
+  NSString *longText = @"Having now a [qq1] good house and a [qq2] very sufficient income, he intended to marry; and in seeking a reconciliation with the Longbourn family he had a wife in view, as he meant to choose one of [qq3] the daughters, if he found them as handsome and amiable as they were represented by common report. This was his plan of amends--of atonement--for inheriting their father's estate; and he thought it an excellent one, full of eligibility and suitableness, and excessively generous [qq4] and disinterested on his own part.";
   
   NSString *path = [[NSBundle mainBundle] pathForResource:@"emotions.plist" ofType:nil];
   NSArray *attrs = [[NSArray alloc] initWithContentsOfFile:path];
