@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2305B5291988CBF200FA44E8 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2305B5281988CBF200FA44E8 /* TTTAttributedLabel.m */; };
 		238A0B901988928E00469543 /* earth.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B8F1988928E00469543 /* earth.gif */; };
 		238A0B93198892A700469543 /* TKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A0B92198892A700469543 /* TKViewController.m */; };
 		238A0B9519889B4A00469543 /* qq.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B9419889B4A00469543 /* qq.gif */; };
@@ -22,6 +23,8 @@
 
 /* Begin PBXFileReference section */
 		1EA685F07BE44A87935C9D68 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2305B5271988CBF200FA44E8 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
+		2305B5281988CBF200FA44E8 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		238A0B8F1988928E00469543 /* earth.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = earth.gif; sourceTree = "<group>"; };
 		238A0B91198892A700469543 /* TKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKViewController.h; sourceTree = "<group>"; };
 		238A0B92198892A700469543 /* TKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKViewController.m; sourceTree = "<group>"; };
@@ -95,6 +98,8 @@
 				23F18D451987A04200CC7394 /* AppDelegate.m */,
 				238A0B91198892A700469543 /* TKViewController.h */,
 				238A0B92198892A700469543 /* TKViewController.m */,
+				2305B5271988CBF200FA44E8 /* TTTAttributedLabel.h */,
+				2305B5281988CBF200FA44E8 /* TTTAttributedLabel.m */,
 				23F18D641987A61C00CC7394 /* TKAnimatedLayer.h */,
 				23F18D651987A61C00CC7394 /* TKAnimatedLayer.m */,
 				238A0B8F1988928E00469543 /* earth.gif */,
@@ -207,6 +212,7 @@
 				238A0B93198892A700469543 /* TKViewController.m in Sources */,
 				23F18D461987A04200CC7394 /* AppDelegate.m in Sources */,
 				23F18D421987A04200CC7394 /* main.m in Sources */,
+				2305B5291988CBF200FA44E8 /* TTTAttributedLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
