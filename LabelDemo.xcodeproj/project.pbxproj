@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		2305B5291988CBF200FA44E8 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2305B5281988CBF200FA44E8 /* TTTAttributedLabel.m */; };
+		2305B52D1988D8DC00FA44E8 /* qq2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2305B52A1988D8DC00FA44E8 /* qq2.gif */; };
+		2305B52E1988D8DC00FA44E8 /* qq3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2305B52B1988D8DC00FA44E8 /* qq3.gif */; };
+		2305B52F1988D8DC00FA44E8 /* qq4.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2305B52C1988D8DC00FA44E8 /* qq4.gif */; };
 		238A0B901988928E00469543 /* earth.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B8F1988928E00469543 /* earth.gif */; };
 		238A0B93198892A700469543 /* TKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A0B92198892A700469543 /* TKViewController.m */; };
-		238A0B9519889B4A00469543 /* qq.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B9419889B4A00469543 /* qq.gif */; };
+		238A0B9519889B4A00469543 /* qq1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B9419889B4A00469543 /* qq1.gif */; };
 		23F18D361987A04200CC7394 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F18D351987A04200CC7394 /* Foundation.framework */; };
 		23F18D3A1987A04200CC7394 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F18D391987A04200CC7394 /* UIKit.framework */; };
 		23F18D421987A04200CC7394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 23F18D411987A04200CC7394 /* main.m */; };
@@ -25,10 +28,13 @@
 		1EA685F07BE44A87935C9D68 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2305B5271988CBF200FA44E8 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
 		2305B5281988CBF200FA44E8 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
+		2305B52A1988D8DC00FA44E8 /* qq2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = qq2.gif; sourceTree = "<group>"; };
+		2305B52B1988D8DC00FA44E8 /* qq3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = qq3.gif; sourceTree = "<group>"; };
+		2305B52C1988D8DC00FA44E8 /* qq4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = qq4.gif; sourceTree = "<group>"; };
 		238A0B8F1988928E00469543 /* earth.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = earth.gif; sourceTree = "<group>"; };
 		238A0B91198892A700469543 /* TKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKViewController.h; sourceTree = "<group>"; };
 		238A0B92198892A700469543 /* TKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKViewController.m; sourceTree = "<group>"; };
-		238A0B9419889B4A00469543 /* qq.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = qq.gif; sourceTree = "<group>"; };
+		238A0B9419889B4A00469543 /* qq1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = qq1.gif; sourceTree = "<group>"; };
 		23F18D321987A04200CC7394 /* LabelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LabelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F18D351987A04200CC7394 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		23F18D391987A04200CC7394 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -103,7 +109,10 @@
 				23F18D641987A61C00CC7394 /* TKAnimatedLayer.h */,
 				23F18D651987A61C00CC7394 /* TKAnimatedLayer.m */,
 				238A0B8F1988928E00469543 /* earth.gif */,
-				238A0B9419889B4A00469543 /* qq.gif */,
+				238A0B9419889B4A00469543 /* qq1.gif */,
+				2305B52A1988D8DC00FA44E8 /* qq2.gif */,
+				2305B52B1988D8DC00FA44E8 /* qq3.gif */,
+				2305B52C1988D8DC00FA44E8 /* qq4.gif */,
 				23F18D471987A04200CC7394 /* Images.xcassets */,
 			);
 			path = LabelDemo;
@@ -162,9 +171,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				238A0B9519889B4A00469543 /* qq.gif in Resources */,
+				238A0B9519889B4A00469543 /* qq1.gif in Resources */,
 				23F18D481987A04200CC7394 /* Images.xcassets in Resources */,
 				238A0B901988928E00469543 /* earth.gif in Resources */,
+				2305B52F1988D8DC00FA44E8 /* qq4.gif in Resources */,
+				2305B52D1988D8DC00FA44E8 /* qq2.gif in Resources */,
+				2305B52E1988D8DC00FA44E8 /* qq3.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
