@@ -79,21 +79,14 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
-  _frameCount = 0;
-  _frameAry = nil;
-  _delayAry = nil;
-  
-  _loopCount = 0;
-  _duration = 0.0;
-  
-  _paused = NO;
-  _presentationIndex = NSNotFound;
+  [self clean];
 }
-
 
 
 - (void)prepare:(NSData *)data
 {
+  DDLogInfo(@"[GIF] %@", THIS_METHOD);
+  
   if ( [data length]>0 ) {
     
     [self clean];
@@ -143,6 +136,7 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 
 - (void)startAnimating
 {
+  DDLogInfo(@"[GIF] %@", THIS_METHOD);
   [self stopAnimating];
   
   if ( _frameCount>0 ) {
@@ -153,17 +147,17 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
     
     NSMutableArray *values = [[NSMutableArray alloc] init];
     NSMutableArray *keyTimes = [[NSMutableArray alloc] init];
-    NSTimeInterval lastDurationFraction = 0.0;
+    
+    NSTimeInterval lastFraction = 0.0;
     for ( NSUInteger i=0; i<_frameCount; ++i ) {
       [values addObject:[NSNumber numberWithUnsignedInteger:i]];
       
-      NSTimeInterval delayTime = [[_delayAry objectAtIndex:i] floatValue];
-      NSTimeInterval currentDurationFraction = 0.0;
+      NSTimeInterval currentFraction = 0.0;
       if ( i>0 ) {
-        currentDurationFraction = lastDurationFraction + delayTime / _duration;
+        currentFraction = lastFraction + [[_delayAry objectAtIndex:i] floatValue] / _duration;
       }
-      lastDurationFraction = currentDurationFraction;
-      [keyTimes addObject:[NSNumber numberWithDouble:currentDurationFraction]];
+      [keyTimes addObject:[NSNumber numberWithDouble:currentFraction]];
+      lastFraction = currentFraction;
     }
     
     //add final destination value
@@ -189,6 +183,7 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 
 - (void)stopAnimating
 {
+  DDLogInfo(@"[GIF] %@", THIS_METHOD);
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   [self removeAnimationForKey:@"GIFAnimation"];
@@ -196,12 +191,14 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 
 - (void)pauseAnimating
 {
+  DDLogInfo(@"[GIF] %@", THIS_METHOD);
   self.speed = 0.0;
   _paused = YES;
 }
 
 - (void)resumeAnimating
 {
+  DDLogInfo(@"[GIF] %@", THIS_METHOD);
   self.speed = 1.0;
   _paused = NO;
   if ( ![self animationForKey:@"GIFAnimation"] ) {
@@ -215,6 +212,7 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
   if ( _frameCount>0 ) {
     NSUInteger index = [[self presentationLayer] presentationIndex];
     if ( index<_frameCount ) {
+      DDLogInfo(@"[GIF] %@ %u", THIS_METHOD, index);
       [CATransaction begin];
       [CATransaction setDisableActions:YES];
       self.contents = [_frameAry objectAtIndex:index];
@@ -225,6 +223,7 @@ BOOL SourceHasAlpha(CGImageSourceRef sourceRef)
 
 + (BOOL)needsDisplayForKey:(NSString *)key
 {
+  DDLogInfo(@"[GIF] %@", THIS_METHOD);
   return [key isEqualToString:@"presentationIndex"];
 }
 

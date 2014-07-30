@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		238A0B8E1988873400469543 /* GifAnimationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A0B8D1988873400469543 /* GifAnimationLayer.m */; };
+		238A0B901988928E00469543 /* earth.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B8F1988928E00469543 /* earth.gif */; };
+		238A0B93198892A700469543 /* TKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 238A0B92198892A700469543 /* TKViewController.m */; };
+		238A0B9519889B4A00469543 /* qq.gif in Resources */ = {isa = PBXBuildFile; fileRef = 238A0B9419889B4A00469543 /* qq.gif */; };
 		23F18D361987A04200CC7394 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F18D351987A04200CC7394 /* Foundation.framework */; };
 		23F18D3A1987A04200CC7394 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F18D391987A04200CC7394 /* UIKit.framework */; };
 		23F18D421987A04200CC7394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 23F18D411987A04200CC7394 /* main.m */; };
@@ -22,6 +25,10 @@
 		1EA685F07BE44A87935C9D68 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		238A0B8C1988873400469543 /* GifAnimationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifAnimationLayer.h; sourceTree = "<group>"; };
 		238A0B8D1988873400469543 /* GifAnimationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifAnimationLayer.m; sourceTree = "<group>"; };
+		238A0B8F1988928E00469543 /* earth.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = earth.gif; sourceTree = "<group>"; };
+		238A0B91198892A700469543 /* TKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKViewController.h; sourceTree = "<group>"; };
+		238A0B92198892A700469543 /* TKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKViewController.m; sourceTree = "<group>"; };
+		238A0B9419889B4A00469543 /* qq.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = qq.gif; sourceTree = "<group>"; };
 		23F18D321987A04200CC7394 /* LabelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LabelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F18D351987A04200CC7394 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		23F18D391987A04200CC7394 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -89,10 +96,14 @@
 				23F18D431987A04200CC7394 /* Prefix.pch */,
 				23F18D441987A04200CC7394 /* AppDelegate.h */,
 				23F18D451987A04200CC7394 /* AppDelegate.m */,
+				238A0B91198892A700469543 /* TKViewController.h */,
+				238A0B92198892A700469543 /* TKViewController.m */,
 				23F18D641987A61C00CC7394 /* TKAnimatedLayer.h */,
 				23F18D651987A61C00CC7394 /* TKAnimatedLayer.m */,
 				238A0B8C1988873400469543 /* GifAnimationLayer.h */,
 				238A0B8D1988873400469543 /* GifAnimationLayer.m */,
+				238A0B8F1988928E00469543 /* earth.gif */,
+				238A0B9419889B4A00469543 /* qq.gif */,
 				23F18D471987A04200CC7394 /* Images.xcassets */,
 			);
 			path = LabelDemo;
@@ -151,7 +162,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				238A0B9519889B4A00469543 /* qq.gif in Resources */,
 				23F18D481987A04200CC7394 /* Images.xcassets in Resources */,
+				238A0B901988928E00469543 /* earth.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23F18D661987A61C00CC7394 /* TKAnimatedLayer.m in Sources */,
+				238A0B93198892A700469543 /* TKViewController.m in Sources */,
 				238A0B8E1988873400469543 /* GifAnimationLayer.m in Sources */,
 				23F18D461987A04200CC7394 /* AppDelegate.m in Sources */,
 				23F18D421987A04200CC7394 /* main.m in Sources */,
